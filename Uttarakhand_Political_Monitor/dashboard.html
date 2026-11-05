@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>उत्तराखंड, यूपी, हिमाचल व राष्ट्रीय राजनीतिक मीडिया मॉनिटर | Live Political Radar</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Yantramanav for Hindi -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Yantramanav:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '"Yantramanav"', 'sans-serif'],
+                        heading: ['"Yantramanav"', 'sans-serif']
+                    },
+                    colors: {
+                        bjp: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12'
+                        },
+                        inc: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', 'Yantramanav', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .soft-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .soft-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+        .bjp-card-hover:hover {
+            border-color: #fdba74;
+            box-shadow: 0 10px 15px -3px rgba(234, 88, 12, 0.08);
+        }
+        .inc-card-hover:hover {
+            border-color: #7dd3fc;
+            box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.08);
+        }
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-orange-500 selection:text-white">
+
+    <!-- Top White Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Branding -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-500 via-amber-500 to-sky-600 flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-mountain text-white text-base"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900 font-heading">
+                            उत्तराखंड, यूपी, हिमाचल व राष्ट्रीय राजनीतिक रडार
+                        </h1>
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> 24x7 एक्टिव
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500">
+                        अमर उजाला, जागरण, हिंदुस्तान, Indian Express, The Print, ETV व BJP-INC सोशल मीडिया (X) वॉर-रूम
+                    </p>
+                </div>
+            </div>
+
+            <!-- View Switcher & Action Controls -->
+            <div class="flex items-center gap-3">
+                <div class="text-right hidden sm:block">
+                    <div class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">अंतिम अपडेट</div>
+                    <div id="lastSyncText" class="text-xs font-mono font-semibold text-slate-700">लोड हो रहा है...</div>
+                </div>
+                <button onclick="fetchLiveIssues()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-colors">
+                    <i id="refreshIcon" class="fa-solid fa-arrows-rotate text-slate-500"></i>
+                    <span>रिफ्रेश</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Navigation Bar -->
+        <div class="bg-slate-50 border-t border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav class="flex space-x-1 sm:space-x-4 overflow-x-auto py-2 text-xs font-bold" aria-label="Tabs">
+                    <button onclick="switchMainView('media')" id="navTab_media" class="main-nav-btn px-3.5 py-1.5 rounded-lg bg-white text-slate-900 shadow-sm border border-slate-200 flex items-center gap-2 transition-all whitespace-nowrap">
+                        <i class="fa-solid fa-newspaper text-slate-500"></i>
+                        <span>📰 मीडिया व समाचार पोर्टल्स</span>
+                        <span id="navMediaCountBadge" class="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-slate-100 text-slate-600 font-mono">0</span>
+                    </button>
+                    <button onclick="switchMainView('social')" id="navTab_social" class="main-nav-btn px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-white/60 flex items-center gap-2 transition-all whitespace-nowrap">
+                        <i class="fa-brands fa-x-twitter text-slate-700"></i>
+                        <span>⚔️ BJP vs INC सोशल मीडिया (X) वॉर-रूम</span>
+                        <span class="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-orange-100 text-orange-700 font-bold">Live Tweets</span>
+                    </button>
+                    <button onclick="switchMainView('battleground')" id="navTab_battleground" class="main-nav-btn px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-white/60 flex items-center gap-2 transition-all whitespace-nowrap">
+                        <i class="fa-solid fa-scale-balanced text-indigo-600"></i>
+                        <span>🎯 सियासी अखाड़ा (3-Point Updates)</span>
+                        <span class="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-indigo-100 text-indigo-700 font-bold">UK • UP • HP • National</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- ================= VIEW 1: PRINT & MEDIA PORTALS ================= -->
+        <section id="view_media" class="space-y-6">
+
+            <!-- Metrics Bar -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                <div class="soft-card rounded-xl p-4 flex items-center gap-3 border-l-4 border-l-slate-600">
+                    <div class="w-10 h-10 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-newspaper"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500 font-medium">कुल ट्रैक मुद्दे</div>
+                        <div id="statTotal" class="text-xl font-bold text-slate-900 font-mono">0</div>
+                    </div>
+                </div>
+
+                <div class="soft-card rounded-xl p-4 flex items-center gap-3 border-l-4 border-l-emerald-600">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-mountain-sun"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500 font-medium">उत्तराखंड (UK)</div>
+                        <div id="statUK" class="text-xl font-bold text-emerald-700 font-mono">0</div>
+                    </div>
+                </div>
+
+                <div class="soft-card rounded-xl p-4 flex items-center gap-3 border-l-4 border-l-amber-600">
+                    <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-landmark"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500 font-medium">उत्तर प्रदेश (UP)</div>
+                        <div id="statUP" class="text-xl font-bold text-amber-700 font-mono">0</div>
+                    </div>
+                </div>
+
+                <div class="soft-card rounded-xl p-4 flex items-center gap-3 border-l-4 border-l-rose-500">
+                    <div class="w-10 h-10 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500 font-medium">हाई अलर्ट / विरोध</div>
+                        <div id="statHigh" class="text-xl font-bold text-rose-600 font-mono">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🔥 TOP 10 TRENDING POLITICAL ISSUES SECTION (WITH DEDICATED FILTERS) 🔥 -->
+            <div class="soft-card rounded-2xl p-5 border-l-4 border-l-rose-600 bg-white space-y-4">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-ping"></span>
+                            <h2 class="text-base sm:text-lg font-bold text-slate-900 font-heading">
+                                🔥 टॉप 10 ट्रेंडिंग राजनीतिक मुद्दे (Top 10 Political Highlights)
+                            </h2>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-0.5">
+                            कार्ड पर कहीं भी क्लिक करके विस्तार से समझें (मुद्दा क्या है, क्यों है) या 'मूल स्रोत' लिंक से पूरी खबर पढ़ें।
+                        </p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                        लाइव डिबेट मीटर
+                    </span>
+                </div>
+
+                <!-- Dedicated Filters for Top 10 Section: State & Time -->
+                <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-xs">
+                    
+                    <!-- Top 10 State Filter -->
+                    <div class="flex items-center gap-1.5 overflow-x-auto">
+                        <span class="text-slate-500 font-bold mr-1">राज्य:</span>
+                        <button onclick="setTopTrendingStateFilter('ALL')" id="ttState_ALL" class="tt-state-btn px-2.5 py-1 rounded-md font-semibold bg-slate-900 text-white transition-all whitespace-nowrap">
+                            Overall (सभी)
+                        </button>
+                        <button onclick="setTopTrendingStateFilter('Uttarakhand')" id="ttState_Uttarakhand" class="tt-state-btn px-2.5 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all whitespace-nowrap">
+                            🏔️ उत्तराखंड
+                        </button>
+                        <button onclick="setTopTrendingStateFilter('Uttar Pradesh')" id="ttState_UttarPradesh" class="tt-state-btn px-2.5 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all whitespace-nowrap">
+                            🏛️ उत्तर प्रदेश
+                        </button>
+                        <button onclick="setTopTrendingStateFilter('Himachal Pradesh')" id="ttState_Himachal" class="tt-state-btn px-2.5 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all whitespace-nowrap">
+                            🌲 हिमाचल प्रदेश
+                        </button>
+                        <button onclick="setTopTrendingStateFilter('National')" id="ttState_National" class="tt-state-btn px-2.5 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all whitespace-nowrap">
+                            🇮🇳 राष्ट्रीय
+                        </button>
+                    </div>
+
+                    <!-- Top 10 Time Filter -->
+                    <div class="flex items-center gap-1.5 overflow-x-auto">
+                        <span class="text-slate-500 font-bold mr-1">समय:</span>
+                        <button onclick="setTopTrendingTimeFilter('ALL')" id="ttTime_ALL" class="tt-time-btn px-2.5 py-1 rounded-md font-semibold bg-slate-900 text-white transition-all whitespace-nowrap">
+                            सभी समय
+                        </button>
+                        <button onclick="setTopTrendingTimeFilter('today')" id="ttTime_today" class="tt-time-btn px-2.5 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all whitespace-nowrap">
+                            ⚡ आज (Today)
+                        </button>
+                        <button onclick="setTopTrendingTimeFilter('yesterday')" id="ttTime_yesterday" class="tt-time-btn px-2.5 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all whitespace-nowrap">
+                            कल (Yesterday)
+                        </button>
+                        <button onclick="setTopTrendingTimeFilter('7d')" id="ttTime_7d" class="tt-time-btn px-2.5 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all whitespace-nowrap">
+                            पिछले 7 दिन
+                        </button>
+                        <button onclick="setTopTrendingTimeFilter('30d')" id="ttTime_30d" class="tt-time-btn px-2.5 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all whitespace-nowrap">
+                            पिछले 30 दिन
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Top 10 Cards Grid (Click on box opens modal, direct link at bottom) -->
+                <div id="topTrendingGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 pt-1">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Portal Badges Filter Row (Amar Ujala, Jagran, Hindustan, IE, HT, The Print, ETV, Samvad) -->
+            <div class="soft-card rounded-xl p-3 flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-slate-500 font-bold mr-1 flex items-center gap-1">
+                    <i class="fa-solid fa-filter text-slate-400"></i> मीडिया पोर्टल:
+                </span>
+                <button onclick="setPortalFilter('ALL')" class="portal-pill px-3 py-1 rounded-full border border-slate-300 font-semibold bg-slate-900 text-white" data-portal="ALL">
+                    सभी पोर्टल्स
+                </button>
+                <button onclick="setPortalFilter('Amar Ujala')" class="portal-pill px-3 py-1 rounded-full border border-slate-200 text-slate-600 hover:border-slate-400 font-medium" data-portal="Amar Ujala">
+                    📰 अमर उजाला
+                </button>
+                <button onclick="setPortalFilter('Dainik Jagran')" class="portal-pill px-3 py-1 rounded-full border border-slate-200 text-slate-600 hover:border-slate-400 font-medium" data-portal="Dainik Jagran">
+                    📰 दैनिक जागरण
+                </button>
+                <button onclick="setPortalFilter('Hindustan')" class="portal-pill px-3 py-1 rounded-full border border-slate-200 text-slate-600 hover:border-slate-400 font-medium" data-portal="Hindustan">
+                    📰 हिन्दुस्तान
+                </button>
+                <button onclick="setPortalFilter('Indian Express')" class="portal-pill px-3 py-1 rounded-full border border-slate-200 text-slate-600 hover:border-slate-400 font-medium" data-portal="Indian Express">
+                    📰 Indian Express
+                </button>
+                <button onclick="setPortalFilter('Hindustan Times')" class="portal-pill px-3 py-1 rounded-full border border-slate-200 text-slate-600 hover:border-slate-400 font-medium" data-portal="Hindustan Times">
+                    📰 Hindustan Times
+                </button>
+                <button onclick="setPortalFilter('The Print')" class="portal-pill px-3 py-1 rounded-full border border-slate-200 text-slate-600 hover:border-slate-400 font-medium" data-portal="The Print">
+                    📰 The Print
+                </button>
+                <button onclick="setPortalFilter('ETV Bharat')" class="portal-pill px-3 py-1 rounded-full border border-slate-200 text-slate-600 hover:border-slate-400 font-medium" data-portal="ETV Bharat">
+                    📺 ETV Bharat (UK/HP)
+                </button>
+                <button onclick="setPortalFilter('Samvad 365')" class="portal-pill px-3 py-1 rounded-full border border-slate-200 text-slate-600 hover:border-slate-400 font-medium" data-portal="Samvad 365">
+                    📺 संवाद 365
+                </button>
+            </div>
+
+            <!-- Search, State & Time Filters for Main Feed -->
+            <div class="soft-card rounded-xl p-4 space-y-3.5">
+                <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+                    <!-- Search Input -->
+                    <div class="relative flex-1">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            oninput="applyFilters()" 
+                            placeholder="मुद्दे, नेता (धामी, योगी, अखिलेश, रावत), भू-कानून, पेपर लीक, अंकिता भंडारी खोजें..." 
+                            class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:bg-white transition-all"
+                        >
+                    </div>
+
+                    <!-- State Filter Buttons for Main Feed -->
+                    <div class="flex bg-slate-100 p-1 rounded-lg border border-slate-200 overflow-x-auto text-xs font-semibold">
+                        <button onclick="setStateFilter('ALL')" id="tab_ALL" class="state-tab px-3 py-1 rounded-md bg-white text-slate-900 shadow-sm transition-all whitespace-nowrap">
+                            सभी राज्य
+                        </button>
+                        <button onclick="setStateFilter('Uttarakhand')" id="tab_Uttarakhand" class="state-tab px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap">
+                            🏔️ उत्तराखंड
+                        </button>
+                        <button onclick="setStateFilter('Uttar Pradesh')" id="tab_UttarPradesh" class="state-tab px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap">
+                            🏛️ उत्तर प्रदेश
+                        </button>
+                        <button onclick="setStateFilter('Himachal Pradesh')" id="tab_Himachal" class="state-tab px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap">
+                            🌲 हिमाचल प्रदेश
+                        </button>
+                        <button onclick="setStateFilter('National')" id="tab_National" class="state-tab px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap">
+                            🇮🇳 राष्ट्रीय
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Time Filter & Category Pills for Main Feed -->
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+                    <div class="flex items-center gap-1.5 overflow-x-auto text-xs">
+                        <span class="text-slate-400 mr-1 font-semibold">समय:</span>
+                        <button onclick="setMainTimeFilter('ALL')" class="main-time-pill px-2.5 py-1 rounded-md font-semibold bg-slate-800 text-white" data-mtime="ALL">सभी समय</button>
+                        <button onclick="setMainTimeFilter('today')" class="main-time-pill px-2.5 py-1 rounded-md font-medium text-slate-600 border border-slate-200 hover:border-slate-400" data-mtime="today">⚡ आज</button>
+                        <button onclick="setMainTimeFilter('yesterday')" class="main-time-pill px-2.5 py-1 rounded-md font-medium text-slate-600 border border-slate-200 hover:border-slate-400" data-mtime="yesterday">कल</button>
+                        <button onclick="setMainTimeFilter('7d')" class="main-time-pill px-2.5 py-1 rounded-md font-medium text-slate-600 border border-slate-200 hover:border-slate-400" data-mtime="7d">पिछले 7 दिन</button>
+                        <button onclick="setMainTimeFilter('30d')" class="main-time-pill px-2.5 py-1 rounded-md font-medium text-slate-600 border border-slate-200 hover:border-slate-400" data-mtime="30d">पिछले 30 दिन</button>
+                    </div>
+
+                    <div class="flex items-center gap-2 text-xs">
+                        <span class="text-slate-500 font-semibold">अलर्ट स्तर:</span>
+                        <select id="severitySelect" onchange="applyFilters()" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-md px-2.5 py-1 focus:outline-none focus:ring-1 focus:ring-slate-400">
+                            <option value="ALL">सभी स्तर</option>
+                            <option value="High">🔴 केवल हाई अलर्ट (विवाद/विरोध)</option>
+                            <option value="Medium">🟡 सामान्य राजनीतिक अपडेट</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issues Feed Header -->
+            <div class="flex items-center justify-between">
+                <div class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <span>ताजा राजनीतिक मीडिया फीड</span>
+                    <span id="filteredCountBadge" class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700 border border-slate-200 font-mono">0</span>
+                </div>
+                <div class="text-xs text-slate-400 italic">
+                    कार्ड पर क्लिक करके विस्तार से समझें (मुद्दा क्या है, क्यों उठा, राजनीतिक प्रभाव)
+                </div>
+            </div>
+
+            <!-- Issues Grid Container -->
+            <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Dynamically Populated Cards -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden soft-card rounded-2xl p-12 text-center space-y-3">
+                <div class="w-16 h-16 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400 text-2xl">
+                    <i class="fa-solid fa-inbox"></i>
+                </div>
+                <h3 class="text-base font-semibold text-slate-700">कोई खबर नहीं मिली</h3>
+                <p class="text-xs text-slate-500 max-w-sm mx-auto">
+                    चुने गए फ़िल्टर या खोज शब्दों के अनुसार वर्तमान में कोई रिपोर्ट मौजूद नहीं है।
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- ================= VIEW 2: BJP vs INC SOCIAL MEDIA (X) WAR ROOM ================= -->
+        <section id="view_social" class="hidden space-y-6">
+
+            <!-- Sentiment Overview Comparison Banner -->
+            <div class="soft-card rounded-2xl p-5 border-t-4 border-t-amber-500 bg-gradient-to-b from-amber-50/20 to-white">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-orange-500 animate-ping"></span>
+                            <h2 class="text-lg font-bold text-slate-900 font-heading">
+                                BJP vs INC सोशल मीडिया (X) वॉर-रूम व सेंटिमेंट मीटर
+                            </h2>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-0.5">
+                            प्रमुख नेताओं के नाम पर क्लिक करके उनकी प्रोफाइल व ट्वीट्स देखें; पोस्ट के नीचे 'सीधे X पोस्ट खोलें' से सीधा ट्वीट देखें।
+                        </p>
+                    </div>
+
+                    <!-- Sentiment Badges Comparison -->
+                    <div class="flex items-center gap-3">
+                        <div class="px-3.5 py-2 rounded-xl bg-orange-50 border border-orange-200 text-right">
+                            <div class="text-[10px] uppercase font-bold text-orange-800">BJP नैरेटिव टोन</div>
+                            <div class="text-xs font-bold text-orange-950 font-mono" id="bjpSentimentSummaryText">64% Positive Governance</div>
+                        </div>
+                        <div class="text-slate-400 font-bold text-xs">VS</div>
+                        <div class="px-3.5 py-2 rounded-xl bg-sky-50 border border-sky-200 text-left">
+                            <div class="text-[10px] uppercase font-bold text-sky-800">INC नैरेटिव टोन</div>
+                            <div class="text-xs font-bold text-sky-950 font-mono" id="incSentimentSummaryText">68% Attack on Govt</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- War Room Specific Filters: State (Uttarakhand & Himachal) & Time Range -->
+            <div class="soft-card rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 text-xs bg-white">
+                
+                <!-- State Filter for Social War Room -->
+                <div class="flex items-center gap-1.5 overflow-x-auto">
+                    <span class="text-slate-500 font-bold mr-1">वॉर-रूम राज्य:</span>
+                    <button onclick="setSocialStateFilter('ALL')" id="socState_ALL" class="soc-state-btn px-3 py-1 rounded-md font-semibold bg-slate-900 text-white transition-all whitespace-nowrap">
+                        सभी राज्य (All)
+                    </button>
+                    <button onclick="setSocialStateFilter('Uttarakhand')" id="socState_Uttarakhand" class="soc-state-btn px-3 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-all whitespace-nowrap">
+                        🏔️ उत्तराखंड (UK)
+                    </button>
+                    <button onclick="setSocialStateFilter('Himachal Pradesh')" id="socState_Himachal" class="soc-state-btn px-3 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-all whitespace-nowrap">
+                        🌲 हिमाचल प्रदेश (HP)
+                    </button>
+                    <button onclick="setSocialStateFilter('National')" id="socState_National" class="soc-state-btn px-3 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-all whitespace-nowrap">
+                        🇮🇳 राष्ट्रीय
+                    </button>
+                </div>
+
+                <!-- Time Filter for Social War Room -->
+                <div class="flex items-center gap-1.5 overflow-x-auto">
+                    <span class="text-slate-500 font-bold mr-1">समय सीमा:</span>
+                    <button onclick="setSocialTimeFilter('ALL')" id="socTime_ALL" class="soc-time-btn px-3 py-1 rounded-md font-semibold bg-slate-900 text-white transition-all whitespace-nowrap">
+                        सभी समय
+                    </button>
+                    <button onclick="setSocialTimeFilter('today')" id="socTime_today" class="soc-time-btn px-3 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-all whitespace-nowrap">
+                        ⚡ आज (Today)
+                    </button>
+                    <button onclick="setSocialTimeFilter('yesterday')" id="socTime_yesterday" class="soc-time-btn px-3 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-all whitespace-nowrap">
+                        कल (Yesterday)
+                    </button>
+                    <button onclick="setSocialTimeFilter('7d')" id="socTime_7d" class="soc-time-btn px-3 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-all whitespace-nowrap">
+                        पिछले 7 दिन
+                    </button>
+                    <button onclick="setSocialTimeFilter('30d')" id="socTime_30d" class="soc-time-btn px-3 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-all whitespace-nowrap">
+                        पिछले 30 दिन
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Two-Column War Room Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- ========== BJP SIDE (Saffron Theme) ========== -->
+                <div class="space-y-4">
+                    
+                    <!-- BJP Header Card -->
+                    <div class="soft-card rounded-2xl p-5 border-t-4 border-t-orange-500 bg-white">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                                    <i class="fa-solid fa-dharmachakra"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-base font-bold text-orange-950">भारतीय जनता पार्टी (BJP)</h3>
+                                    <p class="text-xs text-orange-800 font-medium">सत्तारूढ़ दल • उत्तराखंड</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-800 border border-orange-200">
+                                🟠 Proactive Governance
+                            </span>
+                        </div>
+
+                        <!-- Strategic Narrative Focus -->
+                        <div class="mt-4 p-3 rounded-xl bg-orange-50/70 border border-orange-100 text-xs text-slate-700 leading-relaxed">
+                            <span class="font-bold text-orange-900">केंद्रीय नैरेटिव:</span>
+                            सख्त नकल विरोधी कानून, समान नागरिक संहिता (UCC), धर्मांतरण व दंगा विरोधी कानून, केदारनाथ-बद्रीनाथ विकास, कांग्रेस के 'तुष्टिकरण' पर सीधा प्रहार।
+                        </div>
+
+                        <!-- Tracked Leaders (12 BJP Leaders Clickable) -->
+                        <div class="mt-4 pt-3 border-t border-slate-100">
+                            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                                प्रमुख नेता व हैंडल्स (प्रोफाइल व ट्वीट्स के लिए नाम पर क्लिक करें)
+                            </div>
+                            <div class="flex flex-wrap gap-1.5" id="bjpLeadersList">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Targeted Issues Pills -->
+                        <div class="mt-4 pt-3 border-t border-slate-100">
+                            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                                बीजेपी द्वारा टारगेटेड प्रमुख मुद्दे (ब्रीफिंग के लिए क्लिक करें)
+                            </div>
+                            <div class="space-y-1.5" id="bjpTargetedIssuesList">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BJP Posts Feed -->
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between px-1">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">ताजा ट्वीट्स व बयान (X Radar)</span>
+                            <span class="text-[11px] text-orange-600 font-semibold font-mono" id="bjpPostsCount">0 पोस्ट्स</span>
+                        </div>
+                        <div id="bjpPostsContainer" class="space-y-3">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ========== INC SIDE (Congress Blue Theme) ========== -->
+                <div class="space-y-4">
+                    
+                    <!-- INC Header Card -->
+                    <div class="soft-card rounded-2xl p-5 border-t-4 border-t-sky-600 bg-white">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                                    <i class="fa-solid fa-hand"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-base font-bold text-sky-950">भारतीय राष्ट्रीय कांग्रेस (INC)</h3>
+                                    <p class="text-xs text-sky-800 font-medium">प्रमुख विपक्षी दल • उत्तराखंड</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-800 border border-sky-200">
+                                🔵 Aggressive Opposition
+                            </span>
+                        </div>
+
+                        <!-- Strategic Narrative Focus -->
+                        <div class="mt-4 p-3 rounded-xl bg-sky-50/70 border border-sky-100 text-xs text-slate-700 leading-relaxed">
+                            <span class="font-bold text-sky-900">केंद्रीय नैरेटिव:</span>
+                            सशक्त भू-कानून व 1950 मूल निवास, अंकिता भंडारी न्याय व वीआईपी का खुलासा, UKPSC/UKSSSC पेपर लीक व युवा संघर्ष, केदारनाथ गर्भगृह सोना विवाद।
+                        </div>
+
+                        <!-- Tracked Leaders (16 INC Leaders Clickable) -->
+                        <div class="mt-4 pt-3 border-t border-slate-100">
+                            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                                प्रमुख नेता व हैंडल्स (प्रोफाइल व ट्वीट्स के लिए नाम पर क्लिक करें)
+                            </div>
+                            <div class="flex flex-wrap gap-1.5" id="incLeadersList">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Targeted Issues Pills -->
+                        <div class="mt-4 pt-3 border-t border-slate-100">
+                            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                                कांग्रेस द्वारा दागे गए मुद्दे (ब्रीफिंग के लिए क्लिक करें)
+                            </div>
+                            <div class="space-y-1.5" id="incTargetedIssuesList">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INC Posts Feed -->
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between px-1">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">ताजा ट्वीट्स व हमले (X Radar)</span>
+                            <span class="text-[11px] text-sky-600 font-semibold font-mono" id="incPostsCount">0 पोस्ट्स</span>
+                        </div>
+                        <div id="incPostsContainer" class="space-y-3">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= VIEW 3: BATTLEGROUND MATRIX (Issue Confrontation) ================= -->
+        <section id="view_battleground" class="hidden space-y-6">
+            
+            <div class="soft-card rounded-2xl p-5 border-l-4 border-l-indigo-600 bg-white">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900 font-heading">
+                            🎯 सियासी अखाड़ा: मुख्य ज्वलंत मुद्दों पर आमने-सामने (Date-wise Updates)
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-0.5">
+                            प्रत्येक मुद्दे पर <strong>तारीखवार ताजा 3 अपडेट्स</strong> देखें; पूरा ब्योरा पढ़ने के लिए किसी भी बिंदु पर क्लिक करें।
+                        </p>
+                    </div>
+
+                    <!-- Battleground State Switcher -->
+                    <div class="flex bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-bold">
+                        <button onclick="setBattlegroundStateFilter('ALL')" id="bgTab_ALL" class="bg-state-btn px-3 py-1.5 rounded-md bg-white text-indigo-900 shadow-sm transition-all">
+                            सभी (All)
+                        </button>
+                        <button onclick="setBattlegroundStateFilter('Uttarakhand')" id="bgTab_Uttarakhand" class="bg-state-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 transition-all">
+                            🏔️ उत्तराखंड
+                        </button>
+                        <button onclick="setBattlegroundStateFilter('Uttar Pradesh')" id="bgTab_UttarPradesh" class="bg-state-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 transition-all">
+                            🏛️ उत्तर प्रदेश
+                        </button>
+                        <button onclick="setBattlegroundStateFilter('Himachal Pradesh')" id="bgTab_Himachal" class="bg-state-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 transition-all">
+                            🌲 हिमाचल प्रदेश
+                        </button>
+                        <button onclick="setBattlegroundStateFilter('National')" id="bgTab_National" class="bg-state-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 transition-all">
+                            🇮🇳 राष्ट्रीय
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confrontation Cards Grid -->
+            <div id="battlegroundCardsGrid" class="space-y-5">
+                <!-- Populated dynamically -->
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ================= MODAL 1: GENERAL NEWS & STORY DETAIL ================= -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm" onclick="closeModalOnBackdrop(event, 'detailModal')">
+        <div class="soft-card bg-white border border-slate-200 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <div class="px-6 py-4 border-b border-slate-100 flex items-start justify-between gap-4 bg-slate-50/80">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2" id="modalBadges"></div>
+                    <h3 id="modalHeadline" class="text-lg sm:text-xl font-bold text-slate-900 leading-snug font-heading pt-1"></h3>
+                </div>
+                <button onclick="closeModal('detailModal')" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-200 transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-4 overflow-y-auto custom-scroll text-sm">
+                <div class="bg-blue-50/60 p-4 rounded-xl border border-blue-100 space-y-1">
+                    <div class="flex items-center gap-2 text-xs font-bold text-blue-800 uppercase tracking-wider">
+                        <i class="fa-solid fa-bullhorn"></i>
+                        <span>1. मुद्दा क्या है? (What is the Issue?)</span>
+                    </div>
+                    <p id="modalWhat" class="text-slate-800 leading-relaxed font-medium"></p>
+                </div>
+
+                <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-100 space-y-1">
+                    <div class="flex items-center gap-2 text-xs font-bold text-amber-800 uppercase tracking-wider">
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span>2. विवाद या विरोध का कारण? (Why / Root Cause)</span>
+                    </div>
+                    <p id="modalWhy" class="text-slate-700 leading-relaxed"></p>
+                </div>
+
+                <div class="bg-rose-50/60 p-4 rounded-xl border border-rose-100 space-y-1">
+                    <div class="flex items-center gap-2 text-xs font-bold text-rose-800 uppercase tracking-wider">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>3. संभावित राजनीतिक असर व विश्लेषण (Political Impact)</span>
+                    </div>
+                    <p id="modalImpact" class="text-slate-700 leading-relaxed"></p>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 pt-2 border-t border-slate-100">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-newspaper text-slate-400"></i>
+                        <span>स्रोत: <strong id="modalSource" class="text-slate-800">मीडिया</strong></span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-regular fa-clock text-slate-400"></i>
+                        <span>दिनांक: <span id="modalDate" class="text-slate-700"></span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-xs text-slate-500">100% वेरिफाइड राजनीतिक मीडिया ट्रैकर</span>
+                <a id="modalSourceBtn" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs transition-colors shadow-sm">
+                    <span id="modalSourceBtnText">मूल समाचार पोर्टल खोलें</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= MODAL 2: LEADER PROFILE & TWEETS DEEP DIVE ================= -->
+    <div id="leaderModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm" onclick="closeModalOnBackdrop(event, 'leaderModal')">
+        <div class="soft-card bg-white border border-slate-200 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <div class="px-6 py-4 border-b border-slate-100 flex items-start justify-between gap-4 bg-slate-50">
+                <div class="flex items-center gap-3">
+                    <div id="leaderModalAvatar" class="w-12 h-12 rounded-xl bg-orange-600 text-white font-bold text-base flex items-center justify-center shadow-sm">
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 id="leaderModalName" class="text-lg font-bold text-slate-900 font-heading"></h3>
+                            <a id="leaderModalXLink" href="#" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-slate-900 text-xs">
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+                        </div>
+                        <p id="leaderModalRole" class="text-xs text-slate-500 font-medium"></p>
+                    </div>
+                </div>
+                <button onclick="closeModal('leaderModal')" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-200 transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-5 overflow-y-auto custom-scroll text-sm">
+                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="font-bold text-slate-700">जनता व समर्थकों में सेंटिमेंट (Audience Reaction):</span>
+                        <span id="leaderModalTone" class="font-semibold text-slate-900"></span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div class="p-2 rounded-lg bg-emerald-50 border border-emerald-200">
+                            <div class="font-bold text-emerald-800" id="leaderSentPos">65%</div>
+                            <div class="text-[10px] text-emerald-600">पॉजिटिव समर्थन</div>
+                        </div>
+                        <div class="p-2 rounded-lg bg-rose-50 border border-rose-200">
+                            <div class="font-bold text-rose-800" id="leaderSentCrit">25%</div>
+                            <div class="text-[10px] text-rose-600">आलोचनात्मक / विरोध</div>
+                        </div>
+                        <div class="p-2 rounded-lg bg-slate-100 border border-slate-200">
+                            <div class="font-bold text-slate-700" id="leaderSentNeu">10%</div>
+                            <div class="text-[10px] text-slate-500">तटस्थ / सामान्य</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">मुख्य फोकस मुद्दे (Key Topics Tweeted)</h4>
+                    <div class="flex flex-wrap gap-1.5" id="leaderModalTopics"></div>
+                </div>
+
+                <div class="p-3 rounded-xl bg-amber-50/60 border border-amber-100 text-xs">
+                    <strong class="text-amber-900">मुख्य राजनीतिक संदेश:</strong>
+                    <span id="leaderModalMessage" class="text-slate-700 ml-1"></span>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5">ताजा बयान व ट्वीट्स</h4>
+                    <div id="leaderModalTweetsList" class="space-y-2.5"></div>
+                </div>
+            </div>
+
+            <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-xs text-slate-500">एक्स (ट्विटर) वेरिफाइड लीडर ट्रैकिंग</span>
+                <a id="leaderModalDirectXBtn" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs transition-colors">
+                    <i class="fa-brands fa-x-twitter"></i>
+                    <span>एक्स (X) प्रोफाइल सीधे खोलें</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= MODAL 3: TARGETED ISSUE 1-GLANCE BRIEFING ================= -->
+    <div id="issueBriefModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm" onclick="closeModalOnBackdrop(event, 'issueBriefModal')">
+        <div class="soft-card bg-white border border-slate-200 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <div class="px-6 py-4 border-b border-slate-100 flex items-start justify-between gap-4 bg-slate-50">
+                <div class="space-y-1">
+                    <span id="issueBriefPartyBadge" class="px-2.5 py-0.5 rounded text-xs font-bold"></span>
+                    <h3 id="issueBriefTitle" class="text-lg sm:text-xl font-bold text-slate-900 font-heading pt-1"></h3>
+                </div>
+                <button onclick="closeModal('issueBriefModal')" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-200 transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-4 overflow-y-auto custom-scroll text-sm">
+                <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-100 space-y-1">
+                    <div class="flex items-center gap-2 text-xs font-bold text-blue-900 uppercase tracking-wider">
+                        <i class="fa-solid fa-eye"></i>
+                        <span>एक नज़र में समझें: क्या स्थिति है? (Overview)</span>
+                    </div>
+                    <p id="issueBriefOverview" class="text-slate-800 leading-relaxed font-medium"></p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-purple-50/60 border border-purple-100 space-y-1">
+                    <div class="flex items-center gap-2 text-xs font-bold text-purple-900 uppercase tracking-wider">
+                        <i class="fa-solid fa-chess"></i>
+                        <span>पार्टी की रणनीति (Party Political Strategy)</span>
+                    </div>
+                    <p id="issueBriefStrategy" class="text-slate-800 leading-relaxed"></p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-100 space-y-1">
+                    <div class="flex items-center gap-2 text-xs font-bold text-amber-900 uppercase tracking-wider">
+                        <i class="fa-solid fa-users"></i>
+                        <span>धरातल पर जनभावना व पल्स (Ground Pulse)</span>
+                    </div>
+                    <p id="issueBriefPulse" class="text-slate-800 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-end">
+                <button onclick="closeModal('issueBriefModal')" class="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs">
+                    बंद करें
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Soft Footer -->
+    <footer class="mt-auto border-t border-slate-200 bg-white py-4 text-center text-xs text-slate-500">
+        <p>उत्तराखंड, उत्तर प्रदेश, हिमाचल प्रदेश व राष्ट्रीय राजनीतिक मीडिया मॉनिटरिंग सिस्टम • Dainik Jagran, Amar Ujala, Indian Express, The Print & X War-Room</p>
+    </footer>
+
+    <!-- Initial Fallback Script for Direct file:// Compatibility -->
+    <script src="initial_data.js"></script>
+
+    <!-- Core App Logic -->
+    <script>
+        let allIssues = [];
+        let bjpRadar = {};
+        let incRadar = {};
+        let battlegroundList = [];
+        let topTrendingList = [];
+        let currentStateFilter = 'ALL';
+        let currentCatFilter = 'ALL';
+        let currentPortalFilter = 'ALL';
+        let currentMainTimeFilter = 'ALL';
+        
+        // Dedicated Filters for Top 10
+        let ttCurrentState = 'ALL';
+        let ttCurrentTime = 'ALL';
+
+        // Dedicated Filters for Social War Room
+        let socCurrentState = 'ALL';
+        let socCurrentTime = 'ALL';
+
+        let currentBgStateFilter = 'ALL';
+
+        function switchMainView(viewName) {
+            document.getElementById('view_media').classList.add('hidden');
+            document.getElementById('view_social').classList.add('hidden');
+            document.getElementById('view_battleground').classList.add('hidden');
+
+            document.querySelectorAll('.main-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-slate-900', 'shadow-sm', 'border');
+                btn.classList.add('text-slate-600');
+            });
+
+            const activeTab = document.getElementById('navTab_' + viewName);
+            if (activeTab) {
+                activeTab.classList.remove('text-slate-600');
+                activeTab.classList.add('bg-white', 'text-slate-900', 'shadow-sm', 'border');
+            }
+
+            document.getElementById('view_' + viewName).classList.remove('hidden');
+        }
+
+        async function fetchLiveIssues() {
+            const refreshIcon = document.getElementById('refreshIcon');
+            refreshIcon.classList.add('fa-spin');
+
+            try {
+                const res = await fetch('data.json?t=' + new Date().getTime());
+                if (!res.ok) throw new Error("Could not fetch data.json");
+                const data = await res.json();
+                loadDataIntoState(data);
+                document.getElementById('lastSyncText').innerText = data.last_updated || 'अभी सक्रिय';
+            } catch (err) {
+                console.warn("Using local cache fallback:", err);
+                if (window.INITIAL_DATA) {
+                    loadDataIntoState(window.INITIAL_DATA);
+                    document.getElementById('lastSyncText').innerText = (window.INITIAL_DATA.last_updated || '') + ' (लोकल)';
+                }
+            } finally {
+                setTimeout(() => {
+                    refreshIcon.classList.remove('fa-spin');
+                }, 500);
+            }
+        }
+
+        function loadDataIntoState(data) {
+            allIssues = data.issues || [];
+            bjpRadar = (data.party_social_radar && data.party_social_radar.bjp) || {};
+            incRadar = (data.party_social_radar && data.party_social_radar.inc) || {};
+            battlegroundList = data.battleground_matrix || [];
+            topTrendingList = data.top_10_trending || [];
+
+            updateStats();
+            renderTopTrending();
+            applyFilters();
+            renderSocialWarRoom();
+            renderBattlegroundMatrix();
+        }
+
+        function updateStats() {
+            document.getElementById('statTotal').innerText = allIssues.length;
+            document.getElementById('navMediaCountBadge').innerText = allIssues.length;
+            const ukCount = allIssues.filter(i => i.state === 'Uttarakhand').length;
+            const upCount = allIssues.filter(i => i.state === 'Uttar Pradesh').length;
+            const highCount = allIssues.filter(i => i.severity === 'High').length;
+
+            document.getElementById('statUK').innerText = ukCount;
+            document.getElementById('statUP').innerText = upCount;
+            document.getElementById('statHigh').innerText = highCount;
+        }
+
+        // ================= TOP 10 TRENDING ISSUES LOGIC =================
+        function setTopTrendingStateFilter(state) {
+            ttCurrentState = state;
+            document.querySelectorAll('.tt-state-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-900', 'text-white');
+                btn.classList.add('text-slate-600');
+            });
+            let btnId = 'ttState_ALL';
+            if (state === 'Uttarakhand') btnId = 'ttState_Uttarakhand';
+            else if (state === 'Uttar Pradesh') btnId = 'ttState_UttarPradesh';
+            else if (state === 'Himachal Pradesh') btnId = 'ttState_Himachal';
+            else if (state === 'National') btnId = 'ttState_National';
+
+            const activeBtn = document.getElementById(btnId);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600');
+                activeBtn.classList.add('bg-slate-900', 'text-white');
+            }
+            renderTopTrending();
+        }
+
+        function setTopTrendingTimeFilter(timeTag) {
+            ttCurrentTime = timeTag;
+            document.querySelectorAll('.tt-time-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-900', 'text-white');
+                btn.classList.add('text-slate-600');
+            });
+            let btnId = 'ttTime_ALL';
+            if (timeTag === 'today') btnId = 'ttTime_today';
+            else if (timeTag === 'yesterday') btnId = 'ttTime_yesterday';
+            else if (timeTag === '7d') btnId = 'ttTime_7d';
+            else if (timeTag === '30d') btnId = 'ttTime_30d';
+
+            const activeBtn = document.getElementById(btnId);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600');
+                activeBtn.classList.add('bg-slate-900', 'text-white');
+            }
+            renderTopTrending();
+        }
+
+        function renderTopTrending() {
+            const container = document.getElementById('topTrendingGrid');
+            if (!container || !topTrendingList) return;
+
+            let filtered = topTrendingList;
+
+            // State Filter for Top 10
+            if (ttCurrentState !== 'ALL') {
+                filtered = filtered.filter(t => t.state === ttCurrentState);
+            }
+
+            // Time Filter for Top 10
+            if (ttCurrentTime !== 'ALL') {
+                if (ttCurrentTime === 'today') {
+                    filtered = filtered.filter(t => t.date_tag === 'today');
+                } else if (ttCurrentTime === 'yesterday') {
+                    filtered = filtered.filter(t => t.date_tag === 'yesterday');
+                } else if (ttCurrentTime === '7d') {
+                    filtered = filtered.filter(t => ['today', 'yesterday', '7d'].includes(t.date_tag));
+                } else if (ttCurrentTime === '30d') {
+                    filtered = filtered.filter(t => ['today', 'yesterday', '7d', '30d'].includes(t.date_tag));
+                }
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full p-4 text-center text-xs text-slate-400 italic">इस फ़िल्टर के अनुसार वर्तमान में कोई मुख्य ट्रेंडिंग रिपोर्ट नहीं है। कृपया फ़िल्टर बदलें।</div>`;
+                return;
+            }
+
+            let html = '';
+            filtered.slice(0, 10).forEach(item => {
+                const stateColor = item.state === 'Uttarakhand' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : item.state === 'Uttar Pradesh' ? 'bg-amber-50 text-amber-800 border-amber-200' : item.state === 'Himachal Pradesh' ? 'bg-purple-50 text-purple-800 border-purple-200' : 'bg-blue-50 text-blue-800 border-blue-200';
+
+                html += `
+                <div class="p-3.5 rounded-xl bg-slate-50 hover:bg-rose-50/50 border border-slate-200 hover:border-rose-200 transition-all flex flex-col justify-between group">
+                    <!-- Clicking anywhere on the box body opens detail modal -->
+                    <div class="space-y-1.5 cursor-pointer" onclick="openTopTrendingModal('${item.issue.replace(/'/g, "\\'")}', '${item.what_issue.replace(/'/g, "\\'")}', '${item.why_context.replace(/'/g, "\\'")}', '${item.political_impact.replace(/'/g, "\\'")}', '${item.source}', '${item.link}', '${item.state_label}')">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="w-5 h-5 rounded-md bg-rose-600 text-white font-bold flex items-center justify-center text-[10px]">
+                                #${item.rank}
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-semibold border ${stateColor}">
+                                ${item.state_label}
+                            </span>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-900 group-hover:text-rose-700 leading-snug line-clamp-2">
+                            ${item.issue}
+                        </h4>
+                        <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                            ${item.today_context}
+                        </p>
+                    </div>
+
+                    <!-- Direct Source Link Button at bottom -->
+                    <div class="mt-2.5 pt-2 border-t border-slate-200/80 flex items-center justify-between text-[10px]">
+                        <span class="font-medium text-rose-600 truncate max-w-[55%]">${item.buzz}</span>
+                        <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="font-bold text-slate-800 hover:text-blue-600 flex items-center gap-1 hover:underline">
+                            <span>मूल स्रोत पढ़ें</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[8px]"></i>
+                        </a>
+                    </div>
+                </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function openTopTrendingModal(title, what, why, impact, source, link, stateLabel) {
+            document.getElementById('modalHeadline').innerText = title;
+            document.getElementById('modalWhat').innerText = what;
+            document.getElementById('modalWhy').innerText = why;
+            document.getElementById('modalImpact').innerText = impact;
+            document.getElementById('modalSource').innerText = source;
+            document.getElementById('modalDate').innerText = 'आज का ताजा अपडेट';
+            document.getElementById('modalSourceBtn').href = link;
+            document.getElementById('modalSourceBtnText').innerText = 'मूल समाचार पोर्टल खोलें';
+
+            document.getElementById('modalBadges').innerHTML = `
+                <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">🔥 टॉप 10 ट्रेंडिंग</span>
+                <span class="px-2.5 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">${stateLabel}</span>
+            `;
+
+            openModal('detailModal');
+        }
+
+        // ================= SOCIAL WAR ROOM FILTERS =================
+        function setSocialStateFilter(state) {
+            socCurrentState = state;
+            document.querySelectorAll('.soc-state-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-900', 'text-white');
+                btn.classList.add('text-slate-600');
+            });
+            let btnId = 'socState_ALL';
+            if (state === 'Uttarakhand') btnId = 'socState_Uttarakhand';
+            else if (state === 'Himachal Pradesh') btnId = 'socState_Himachal';
+            else if (state === 'National') btnId = 'socState_National';
+
+            const activeBtn = document.getElementById(btnId);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600');
+                activeBtn.classList.add('bg-slate-900', 'text-white');
+            }
+            renderSocialWarRoom();
+        }
+
+        function setSocialTimeFilter(timeTag) {
+            socCurrentTime = timeTag;
+            document.querySelectorAll('.soc-time-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-900', 'text-white');
+                btn.classList.add('text-slate-600');
+            });
+            let btnId = 'socTime_ALL';
+            if (timeTag === 'today') btnId = 'socTime_today';
+            else if (timeTag === 'yesterday') btnId = 'socTime_yesterday';
+            else if (timeTag === '7d') btnId = 'socTime_7d';
+            else if (timeTag === '30d') btnId = 'socTime_30d';
+
+            const activeBtn = document.getElementById(btnId);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600');
+                activeBtn.classList.add('bg-slate-900', 'text-white');
+            }
+            renderSocialWarRoom();
+        }
+
+        function renderSocialWarRoom() {
+            if (!bjpRadar || !incRadar) return;
+
+            if (bjpRadar.overall_summary) {
+                document.getElementById('bjpSentimentSummaryText').innerText = bjpRadar.overall_summary;
+            }
+            if (incRadar.overall_summary) {
+                document.getElementById('incSentimentSummaryText').innerText = incRadar.overall_summary;
+            }
+
+            // BJP Leaders List
+            const bjpLeadersList = document.getElementById('bjpLeadersList');
+            if (bjpLeadersList && bjpRadar.main_leaders) {
+                let leaders = bjpRadar.main_leaders;
+                if (socCurrentState !== 'ALL') {
+                    leaders = leaders.filter(l => l.state === socCurrentState);
+                }
+                let html = '';
+                leaders.forEach(ldr => {
+                    html += `
+                    <button onclick="openLeaderModal('bjp', '${ldr.id}')" class="px-2.5 py-1 rounded-lg bg-orange-50 hover:bg-orange-100 border border-orange-200 text-xs font-semibold text-orange-950 transition-colors flex items-center gap-1.5 shadow-2xs">
+                        <i class="fa-brands fa-x-twitter text-orange-600"></i>
+                        <span>${ldr.name}</span>
+                        <span class="text-[10px] text-orange-700 font-mono font-normal">${ldr.handle}</span>
+                    </button>
+                    `;
+                });
+                bjpLeadersList.innerHTML = html || `<span class="text-xs text-slate-400 italic">इस राज्य के नेता रडार पर रिकॉर्डेड हैं।</span>`;
+            }
+
+            // BJP Targeted Issues
+            const bjpTargetList = document.getElementById('bjpTargetedIssuesList');
+            if (bjpTargetList && bjpRadar.targeted_issues) {
+                let html = '';
+                bjpRadar.targeted_issues.forEach(iss => {
+                    html += `
+                    <div onclick="openIssueBriefModal('bjp', '${iss.id}')" class="flex items-center justify-between p-2.5 rounded-lg bg-orange-50/60 hover:bg-orange-100/70 border border-orange-200 text-xs cursor-pointer transition-colors group">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-dot text-orange-500 text-[10px]"></i>
+                            <span class="font-bold text-slate-800 group-hover:text-orange-900">${iss.issue}</span>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white text-orange-700 border border-orange-200 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                            ${iss.status} ➔
+                        </span>
+                    </div>
+                    `;
+                });
+                bjpTargetList.innerHTML = html;
+            }
+
+            // BJP Posts Feed (Filtered by War Room State & Time)
+            const bjpPostsCont = document.getElementById('bjpPostsContainer');
+            if (bjpPostsCont && bjpRadar.posts) {
+                let posts = bjpRadar.posts;
+                if (socCurrentState !== 'ALL') {
+                    posts = posts.filter(p => p.state === socCurrentState);
+                }
+                if (socCurrentTime !== 'ALL') {
+                    if (socCurrentTime === 'today') posts = posts.filter(p => p.date_tag === 'today');
+                    else if (socCurrentTime === 'yesterday') posts = posts.filter(p => p.date_tag === 'yesterday');
+                    else if (socCurrentTime === '7d') posts = posts.filter(p => ['today', 'yesterday', '7d'].includes(p.date_tag));
+                    else if (socCurrentTime === '30d') posts = posts.filter(p => ['today', 'yesterday', '7d', '30d'].includes(p.date_tag));
+                }
+
+                document.getElementById('bjpPostsCount').innerText = `${posts.length} ट्वीट्स/बयान`;
+                let html = '';
+                posts.forEach(p => {
+                    html += `
+                    <div class="soft-card bjp-card-hover rounded-xl p-4 space-y-2 border-l-4 border-l-orange-500">
+                        <div class="flex items-center justify-between text-xs">
+                            <div class="font-bold text-slate-800 flex items-center gap-1.5 cursor-pointer" onclick="openLeaderModal('bjp', '${p.leader_id}')">
+                                <i class="fa-brands fa-x-twitter text-slate-700"></i>
+                                <span class="hover:underline">${p.leader}</span>
+                            </div>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold border border-orange-200 bg-orange-50 text-orange-800">
+                                ${p.sentiment_tag}
+                            </span>
+                        </div>
+                        <p class="text-xs font-semibold text-slate-900 leading-snug cursor-pointer" onclick="openWarRoomPostModal('bjp', ${p.id})">
+                            ${p.headline}
+                        </p>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-100">
+                            <span>📅 ${p.date_str || 'ताजा'}</span>
+                            <!-- Direct specific live post on X -->
+                            <a href="${p.x_url}" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-bold flex items-center gap-1 hover:underline">
+                                <span>सीधे X पोस्ट खोलें</span>
+                                <i class="fa-brands fa-x-twitter text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                    `;
+                });
+                bjpPostsCont.innerHTML = html || `<p class="text-xs text-slate-400 italic">इस फ़िल्टर में कोई पोस्ट नहीं मिला।</p>`;
+            }
+
+            // INC Leaders List
+            const incLeadersList = document.getElementById('incLeadersList');
+            if (incLeadersList && incRadar.main_leaders) {
+                let leaders = incRadar.main_leaders;
+                if (socCurrentState !== 'ALL') {
+                    leaders = leaders.filter(l => l.state === socCurrentState);
+                }
+                let html = '';
+                leaders.forEach(ldr => {
+                    html += `
+                    <button onclick="openLeaderModal('inc', '${ldr.id}')" class="px-2.5 py-1 rounded-lg bg-sky-50 hover:bg-sky-100 border border-sky-200 text-xs font-semibold text-sky-950 transition-colors flex items-center gap-1.5 shadow-2xs">
+                        <i class="fa-brands fa-x-twitter text-sky-600"></i>
+                        <span>${ldr.name}</span>
+                        <span class="text-[10px] text-sky-700 font-mono font-normal">${ldr.handle}</span>
+                    </button>
+                    `;
+                });
+                incLeadersList.innerHTML = html || `<span class="text-xs text-slate-400 italic">इस राज्य के नेता रडार पर रिकॉर्डेड हैं।</span>`;
+            }
+
+            // INC Targeted Issues
+            const incTargetList = document.getElementById('incTargetedIssuesList');
+            if (incTargetList && incRadar.targeted_issues) {
+                let html = '';
+                incRadar.targeted_issues.forEach(iss => {
+                    html += `
+                    <div onclick="openIssueBriefModal('inc', '${iss.id}')" class="flex items-center justify-between p-2.5 rounded-lg bg-sky-50/60 hover:bg-sky-100/70 border border-sky-200 text-xs cursor-pointer transition-colors group">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-dot text-sky-500 text-[10px]"></i>
+                            <span class="font-bold text-slate-800 group-hover:text-sky-900">${iss.issue}</span>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white text-sky-700 border border-sky-200 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                            ${iss.status} ➔
+                        </span>
+                    </div>
+                    `;
+                });
+                incTargetList.innerHTML = html;
+            }
+
+            // INC Posts Feed (Filtered by War Room State & Time)
+            const incPostsCont = document.getElementById('incPostsContainer');
+            if (incPostsCont && incRadar.posts) {
+                let posts = incRadar.posts;
+                if (socCurrentState !== 'ALL') {
+                    posts = posts.filter(p => p.state === socCurrentState);
+                }
+                if (socCurrentTime !== 'ALL') {
+                    if (socCurrentTime === 'today') posts = posts.filter(p => p.date_tag === 'today');
+                    else if (socCurrentTime === 'yesterday') posts = posts.filter(p => p.date_tag === 'yesterday');
+                    else if (socCurrentTime === '7d') posts = posts.filter(p => ['today', 'yesterday', '7d'].includes(p.date_tag));
+                    else if (socCurrentTime === '30d') posts = posts.filter(p => ['today', 'yesterday', '7d', '30d'].includes(p.date_tag));
+                }
+
+                document.getElementById('incPostsCount').innerText = `${posts.length} ट्वीट्स/हमले`;
+                let html = '';
+                posts.forEach(p => {
+                    html += `
+                    <div class="soft-card inc-card-hover rounded-xl p-4 space-y-2 border-l-4 border-l-sky-600">
+                        <div class="flex items-center justify-between text-xs">
+                            <div class="font-bold text-slate-800 flex items-center gap-1.5 cursor-pointer" onclick="openLeaderModal('inc', '${p.leader_id}')">
+                                <i class="fa-brands fa-x-twitter text-slate-700"></i>
+                                <span class="hover:underline">${p.leader}</span>
+                            </div>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold border border-rose-200 bg-rose-50 text-rose-800">
+                                ${p.sentiment_tag}
+                            </span>
+                        </div>
+                        <p class="text-xs font-semibold text-slate-900 leading-snug cursor-pointer" onclick="openWarRoomPostModal('inc', ${p.id})">
+                            ${p.headline}
+                        </p>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-100">
+                            <span>📅 ${p.date_str || 'ताजा'}</span>
+                            <!-- Direct specific live post on X -->
+                            <a href="${p.x_url}" target="_blank" rel="noopener noreferrer" class="text-sky-600 font-bold flex items-center gap-1 hover:underline">
+                                <span>सीधे X पोस्ट खोलें</span>
+                                <i class="fa-brands fa-x-twitter text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                    `;
+                });
+                incPostsCont.innerHTML = html || `<p class="text-xs text-slate-400 italic">इस फ़िल्टर में कोई पोस्ट नहीं मिला।</p>`;
+            }
+        }
+
+        // ================= MAIN MEDIA FEED FILTERS =================
+        function setPortalFilter(portal) {
+            currentPortalFilter = portal;
+            document.querySelectorAll('.portal-pill').forEach(pill => {
+                if (pill.dataset.portal === portal) {
+                    pill.classList.remove('border-slate-200', 'text-slate-600');
+                    pill.classList.add('bg-slate-900', 'text-white', 'border-slate-900');
+                } else {
+                    pill.classList.remove('bg-slate-900', 'text-white', 'border-slate-900');
+                    pill.classList.add('border-slate-200', 'text-slate-600');
+                }
+            });
+            applyFilters();
+        }
+
+        function setStateFilter(state) {
+            currentStateFilter = state;
+            document.querySelectorAll('.state-tab').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-slate-900', 'shadow-sm');
+                btn.classList.add('text-slate-600');
+            });
+
+            let activeId = 'tab_ALL';
+            if (state === 'Uttarakhand') activeId = 'tab_Uttarakhand';
+            else if (state === 'Uttar Pradesh') activeId = 'tab_UttarPradesh';
+            else if (state === 'Himachal Pradesh') activeId = 'tab_Himachal';
+            else if (state === 'National') activeId = 'tab_National';
+
+            const activeBtn = document.getElementById(activeId);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600');
+                activeBtn.classList.add('bg-white', 'text-slate-900', 'shadow-sm');
+            }
+            applyFilters();
+        }
+
+        function setMainTimeFilter(timeTag) {
+            currentMainTimeFilter = timeTag;
+            document.querySelectorAll('.main-time-pill').forEach(btn => {
+                if (btn.dataset.mtime === timeTag) {
+                    btn.classList.remove('text-slate-600', 'border');
+                    btn.classList.add('bg-slate-800', 'text-white');
+                } else {
+                    btn.classList.remove('bg-slate-800', 'text-white');
+                    btn.classList.add('text-slate-600', 'border');
+                }
+            });
+            applyFilters();
+        }
+
+        function setCategoryFilter(cat) {
+            currentCatFilter = cat;
+            document.querySelectorAll('.cat-pill').forEach(pill => {
+                if (pill.dataset.cat === cat) {
+                    pill.classList.remove('text-slate-600', 'border-slate-200');
+                    pill.classList.add('bg-slate-800', 'text-white', 'border-slate-800');
+                } else {
+                    pill.classList.remove('bg-slate-800', 'text-white', 'border-slate-800');
+                    pill.classList.add('text-slate-600', 'border-slate-200');
+                }
+            });
+            applyFilters();
+        }
+
+        function setBattlegroundStateFilter(state) {
+            currentBgStateFilter = state;
+            document.querySelectorAll('.bg-state-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-indigo-900', 'shadow-sm');
+                btn.classList.add('text-slate-600');
+            });
+
+            let activeId = 'bgTab_ALL';
+            if (state === 'Uttarakhand') activeId = 'bgTab_Uttarakhand';
+            else if (state === 'Uttar Pradesh') activeId = 'bgTab_UttarPradesh';
+            else if (state === 'Himachal Pradesh') activeId = 'bgTab_Himachal';
+            else if (state === 'National') activeId = 'bgTab_National';
+
+            const activeBtn = document.getElementById(activeId);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600');
+                activeBtn.classList.add('bg-white', 'text-indigo-900', 'shadow-sm');
+            }
+            renderBattlegroundMatrix();
+        }
+
+        function applyFilters() {
+            const query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+            const severitySelect = document.getElementById('severitySelect').value;
+
+            const filtered = allIssues.filter(item => {
+                if (currentStateFilter !== 'ALL' && item.state !== currentStateFilter) return false;
+                if (currentCatFilter !== 'ALL' && item.category !== currentCatFilter) return false;
+                if (severitySelect !== 'ALL' && item.severity !== severitySelect) return false;
+
+                // Main Feed Time Filter
+                if (currentMainTimeFilter !== 'ALL') {
+                    if (currentMainTimeFilter === 'today' && item.date_tag !== 'today') return false;
+                    if (currentMainTimeFilter === 'yesterday' && item.date_tag !== 'yesterday') return false;
+                    if (currentMainTimeFilter === '7d' && !['today', 'yesterday', '7d'].includes(item.date_tag)) return false;
+                    if (currentMainTimeFilter === '30d' && !['today', 'yesterday', '7d', '30d'].includes(item.date_tag)) return false;
+                }
+
+                // Portal Filter
+                if (currentPortalFilter !== 'ALL') {
+                    const src = (item.source || '').toLowerCase();
+                    if (currentPortalFilter === 'Amar Ujala' && !src.includes('amar')) return false;
+                    if (currentPortalFilter === 'Dainik Jagran' && !src.includes('jagran')) return false;
+                    if (currentPortalFilter === 'Hindustan' && !src.includes('hindustan') && !src.includes('हिन्दुस्तान')) return false;
+                    if (currentPortalFilter === 'Indian Express' && !src.includes('express')) return false;
+                    if (currentPortalFilter === 'Hindustan Times' && !src.includes('times')) return false;
+                    if (currentPortalFilter === 'The Print' && !src.includes('print')) return false;
+                    if (currentPortalFilter === 'ETV Bharat' && !src.includes('etv')) return false;
+                    if (currentPortalFilter === 'Samvad 365' && !src.includes('samvad')) return false;
+                }
+
+                if (query) {
+                    const haystack = (item.headline + " " + item.what_issue + " " + item.why_context + " " + item.source + " " + item.state).toLowerCase();
+                    if (!haystack.includes(query)) return false;
+                }
+                return true;
+            });
+
+            renderCards(filtered);
+        }
+
+        function renderCards(items) {
+            const container = document.getElementById('cardsGrid');
+            const emptyState = document.getElementById('emptyState');
+            const badge = document.getElementById('filteredCountBadge');
+            badge.innerText = items.length;
+
+            if (items.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            let html = '';
+
+            items.forEach(item => {
+                const isHigh = item.severity === 'High';
+                const stateLabel = item.state === 'Uttarakhand' ? '🏔️ उत्तराखंड' : item.state === 'Uttar Pradesh' ? '🏛️ उत्तर प्रदेश' : item.state === 'Himachal Pradesh' ? '🌲 हिमाचल' : '🇮🇳 राष्ट्रीय';
+                const stateColor = item.state === 'Uttarakhand' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : item.state === 'Uttar Pradesh' ? 'bg-amber-50 text-amber-800 border-amber-200' : item.state === 'Himachal Pradesh' ? 'bg-purple-50 text-purple-800 border-purple-200' : 'bg-blue-50 text-blue-800 border-blue-200';
+
+                let sentPill = '';
+                if (item.sentiment === 'Positive') {
+                    sentPill = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">🟢 पॉजिटिव (विकास)</span>';
+                } else if (item.sentiment === 'Negative') {
+                    sentPill = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">🔴 विरोध / हमला</span>';
+                } else {
+                    sentPill = '<span class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">⚪ सामान्य</span>';
+                }
+
+                html += `
+                <div class="soft-card rounded-xl p-5 flex flex-col justify-between cursor-pointer group" onclick="openDetailModal(${item.id})">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span class="px-2 py-0.5 rounded text-[11px] font-semibold border ${stateColor}">
+                                    ${stateLabel}
+                                </span>
+                                <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200">
+                                    ${item.category}
+                                </span>
+                            </div>
+                            ${sentPill}
+                        </div>
+
+                        <h4 class="text-sm sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug line-clamp-2">
+                            ${item.headline}
+                        </h4>
+
+                        <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                            ${item.why_context}
+                        </p>
+                    </div>
+
+                    <div class="pt-3.5 mt-3.5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <div class="flex items-center gap-1.5 truncate max-w-[65%]">
+                            <i class="fa-solid fa-newspaper text-slate-400"></i>
+                            <span class="truncate font-semibold text-slate-700">${item.source}</span>
+                            <span class="text-[10px] text-slate-400 font-mono">• ${item.date_label || 'ताजा'}</span>
+                        </div>
+                        <div class="text-slate-900 font-bold group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex items-center gap-1">
+                            <span>विस्तार से</span>
+                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function renderBattlegroundMatrix() {
+            const container = document.getElementById('battlegroundCardsGrid');
+            if (!container || !battlegroundList) return;
+
+            let filteredBg = battlegroundList;
+            if (currentBgStateFilter !== 'ALL') {
+                filteredBg = battlegroundList.filter(b => b.state === currentBgStateFilter);
+            }
+
+            let html = '';
+            filteredBg.forEach((bg, idx) => {
+                const stateBadge = bg.state === 'Uttarakhand' ? '🏔️ उत्तराखंड' : bg.state === 'Uttar Pradesh' ? '🏛️ उत्तर प्रदेश' : bg.state === 'Himachal Pradesh' ? '🌲 हिमाचल प्रदेश' : '🇮🇳 राष्ट्रीय';
+                const stateColor = bg.state === 'Uttarakhand' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : bg.state === 'Uttar Pradesh' ? 'bg-amber-50 text-amber-800 border-amber-200' : bg.state === 'Himachal Pradesh' ? 'bg-purple-50 text-purple-800 border-purple-200' : 'bg-blue-50 text-blue-800 border-blue-200';
+
+                let updatesHtml = '';
+                if (bg.latest_3_updates && bg.latest_3_updates.length > 0) {
+                    updatesHtml = `
+                    <div class="mt-4 pt-3 border-t border-slate-100 space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-slate-800 flex items-center gap-1.5">
+                                <i class="fa-solid fa-timeline text-indigo-600"></i>
+                                <span>ताजा 3 अपडेट्स (Date-wise Timeline):</span>
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    `;
+
+                    bg.latest_3_updates.forEach((u, uIdx) => {
+                        updatesHtml += `
+                        <div onclick="openTimelineUpdateModal('${bg.issue_title.replace(/'/g, "\\'")}', '${u.date}', '${u.point.replace(/'/g, "\\'")}', '${u.detail.replace(/'/g, "\\'")}', '${u.source}')" class="p-3 rounded-xl bg-slate-50 hover:bg-indigo-50/70 border border-slate-200 hover:border-indigo-200 cursor-pointer transition-all space-y-1 group">
+                            <div class="flex items-center justify-between text-[11px]">
+                                <span class="font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">${u.date}</span>
+                                <span class="text-[10px] text-slate-400 truncate">${u.source}</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-800 group-hover:text-indigo-950 leading-snug line-clamp-2">
+                                ${u.point}
+                            </p>
+                        </div>
+                        `;
+                    });
+
+                    updatesHtml += `</div></div>`;
+                }
+
+                html += `
+                <div class="soft-card rounded-2xl p-5 space-y-4 bg-white border border-slate-200">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-xs">
+                                ${idx + 1}
+                            </span>
+                            <h3 class="text-base font-bold text-slate-900 font-heading">
+                                ${bg.issue_title}
+                            </h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold border ${stateColor}">
+                                ${stateBadge}
+                            </span>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                                ${bg.sensitivity}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-3.5 rounded-xl bg-orange-50/70 border border-orange-100 space-y-1">
+                            <div class="flex items-center gap-1.5 text-xs font-bold text-orange-900">
+                                <i class="fa-solid fa-shield-halved text-orange-600"></i>
+                                <span>BJP का रुख व बचाव (Govt Stance)</span>
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed font-medium">
+                                ${bg.bjp_stance}
+                            </p>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-sky-50/70 border border-sky-100 space-y-1">
+                            <div class="flex items-center gap-1.5 text-xs font-bold text-sky-900">
+                                <i class="fa-solid fa-bullhorn text-sky-600"></i>
+                                <span>विपक्ष का हमला व आरोप (Opposition Attack)</span>
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed font-medium">
+                                ${bg.inc_stance}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                        <div class="text-slate-600">
+                            <strong class="text-slate-800">जनभावना व धरातल:</strong> ${bg.public_sentiment}
+                        </div>
+                        <div class="text-indigo-800 font-bold whitespace-nowrap bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-100">
+                            ⚡ राजनीतिक असर: ${bg.political_angle}
+                        </div>
+                    </div>
+
+                    ${updatesHtml}
+                </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Leader Deep Dive Modal
+        function openLeaderModal(party, leaderId) {
+            const radar = party === 'bjp' ? bjpRadar : incRadar;
+            if (!radar || !radar.main_leaders) return;
+
+            const leader = radar.main_leaders.find(l => l.id === leaderId);
+            if (!leader) return;
+
+            document.getElementById('leaderModalName').innerText = leader.name;
+            document.getElementById('leaderModalRole').innerText = `${leader.role} • ${leader.handle}`;
+            document.getElementById('leaderModalAvatar').innerText = leader.avatar;
+            document.getElementById('leaderModalAvatar').className = `w-12 h-12 rounded-xl text-white font-bold text-base flex items-center justify-center shadow-sm ${party === 'bjp' ? 'bg-orange-500' : 'bg-sky-600'}`;
+            document.getElementById('leaderModalTone').innerText = leader.tone || 'सक्रिय व मुखर';
+            document.getElementById('leaderModalMessage').innerText = leader.key_msg || 'उत्तराखंड व जनता के अधिकारों के लिए प्रतिबद्ध।';
+            document.getElementById('leaderModalXLink').href = leader.x_url;
+            document.getElementById('leaderModalDirectXBtn').href = leader.x_url;
+
+            document.getElementById('leaderSentPos').innerText = (leader.sentiment ? leader.sentiment.pos : 65) + '%';
+            document.getElementById('leaderSentCrit').innerText = (leader.sentiment ? leader.sentiment.crit : 23) + '%';
+            document.getElementById('leaderSentNeu').innerText = (leader.sentiment ? leader.sentiment.neu : 12) + '%';
+
+            let topicsHtml = '';
+            (leader.focus || []).forEach(t => {
+                topicsHtml += `<span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 text-xs font-semibold border border-slate-200">${t}</span>`;
+            });
+            document.getElementById('leaderModalTopics').innerHTML = topicsHtml;
+
+            const leaderPosts = (radar.posts || []).filter(p => p.leader_id === leaderId || p.leader.includes(leader.name));
+            let tweetsHtml = '';
+            if (leaderPosts.length > 0) {
+                leaderPosts.forEach(lp => {
+                    tweetsHtml += `
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
+                        <div class="flex items-center justify-between text-[11px] text-slate-400">
+                            <span>${lp.date_str || 'ताजा'}</span>
+                            <span class="font-bold ${party === 'bjp' ? 'text-orange-600' : 'text-sky-600'}">${lp.sentiment_tag}</span>
+                        </div>
+                        <p class="font-medium text-slate-800">${lp.headline}</p>
+                    </div>
+                    `;
+                });
+            } else {
+                tweetsHtml = `<p class="text-xs text-slate-400 italic">इस नेता के ताजा बयान व ट्वीट्स रडार पर रिकॉर्डेड हैं।</p>`;
+            }
+            document.getElementById('leaderModalTweetsList').innerHTML = tweetsHtml;
+
+            openModal('leaderModal');
+        }
+
+        function openIssueBriefModal(party, issueId) {
+            const radar = party === 'bjp' ? bjpRadar : incRadar;
+            if (!radar || !radar.targeted_issues) return;
+
+            const issue = radar.targeted_issues.find(i => i.id === issueId);
+            if (!issue) return;
+
+            document.getElementById('issueBriefTitle').innerText = issue.issue;
+            document.getElementById('issueBriefOverview').innerText = issue.brief_overview;
+            document.getElementById('issueBriefStrategy').innerText = issue.party_strategy;
+            document.getElementById('issueBriefPulse').innerText = issue.current_pulse;
+
+            const badge = document.getElementById('issueBriefPartyBadge');
+            if (party === 'bjp') {
+                badge.innerText = 'भारतीय जनता पार्टी (BJP) एजेंडा';
+                badge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-orange-100 text-orange-800 border border-orange-200';
+            } else {
+                badge.innerText = 'कांग्रेस (INC) घेराबंदी मुद्दा';
+                badge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-sky-100 text-sky-800 border border-sky-200';
+            }
+
+            openModal('issueBriefModal');
+        }
+
+        function openWarRoomPostModal(party, postId) {
+            const radar = party === 'bjp' ? bjpRadar : incRadar;
+            if (!radar || !radar.posts) return;
+
+            const post = radar.posts.find(p => p.id === postId);
+            if (!post) return;
+
+            document.getElementById('modalHeadline').innerText = post.headline;
+            document.getElementById('modalWhat').innerText = post.summary || post.headline;
+            document.getElementById('modalWhy').innerText = post.why_context || 'सोशल मीडिया पर जारी वक्तव्य व राजनीतिक विमर्श।';
+            document.getElementById('modalImpact').innerText = `पार्टी नैरेटिव: ${post.sentiment_tag}। सोशल मीडिया पर कार्यकर्ताओं द्वारा व्यापक स्तर पर प्रचारित।`;
+            document.getElementById('modalSource').innerText = `${post.leader} (X / Twitter)`;
+            document.getElementById('modalDate').innerText = post.date_str || 'ताजा';
+            document.getElementById('modalSourceBtn').href = post.x_url || 'https://x.com';
+            document.getElementById('modalSourceBtnText').innerText = 'एक्स (X) पर सीधे खोलें';
+
+            const partyBadgeClass = party === 'bjp' ? 'bg-orange-50 text-orange-800 border-orange-200' : 'bg-sky-50 text-sky-800 border-sky-200';
+            document.getElementById('modalBadges').innerHTML = `
+                <span class="px-2.5 py-0.5 rounded text-xs font-bold border ${partyBadgeClass}">${party === 'bjp' ? '🟠 BJP X Radar' : '🔵 INC X Radar'}</span>
+                <span class="px-2.5 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">${post.sentiment_tag}</span>
+            `;
+
+            openModal('detailModal');
+        }
+
+        function openTimelineUpdateModal(issueTitle, date, point, detail, source) {
+            document.getElementById('modalHeadline').innerText = `${point}`;
+            document.getElementById('modalWhat').innerText = detail;
+            document.getElementById('modalWhy').innerText = `संबंधित बड़ा मुद्दा: ${issueTitle}। दोनों प्रमुख दलों द्वारा निरंतर निगरानी व बयानबाजी।`;
+            document.getElementById('modalImpact').innerText = `धरातलीय प्रभाव: इस ताजा घटनाक्रम ने राज्य के राजनीतिक विमर्श में नई बहस छेड़ दी है।`;
+            document.getElementById('modalSource').innerText = source;
+            document.getElementById('modalDate').innerText = date;
+            document.getElementById('modalSourceBtn').href = '#';
+            document.getElementById('modalSourceBtnText').innerText = 'वेरिफाइड टाइमलाइन रिपोर्ट';
+
+            document.getElementById('modalBadges').innerHTML = `
+                <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">🎯 सियासी अखाड़ा अपडेट</span>
+                <span class="px-2.5 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">${date}</span>
+            `;
+
+            openModal('detailModal');
+        }
+
+        function openDetailModal(id) {
+            const item = allIssues.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('modalHeadline').innerText = item.headline;
+            document.getElementById('modalWhat').innerText = item.what_issue;
+            document.getElementById('modalWhy').innerText = item.why_context;
+            document.getElementById('modalImpact').innerText = item.political_impact;
+            document.getElementById('modalSource').innerText = item.source;
+            document.getElementById('modalDate').innerText = item.pub_date || item.detected_at;
+            document.getElementById('modalSourceBtn').href = item.link || '#';
+            document.getElementById('modalSourceBtnText').innerText = 'मूल समाचार पोर्टल खोलें';
+
+            const stateLabel = item.state === 'Uttarakhand' ? '🏔️ उत्तराखंड' : item.state === 'Uttar Pradesh' ? '🏛️ उत्तर प्रदेश' : item.state === 'Himachal Pradesh' ? '🌲 हिमाचल प्रदेश' : '🇮🇳 राष्ट्रीय परिप्रेक्ष्य';
+            const stateColor = item.state === 'Uttarakhand' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : item.state === 'Uttar Pradesh' ? 'bg-amber-50 text-amber-800 border-amber-200' : item.state === 'Himachal Pradesh' ? 'bg-purple-50 text-purple-800 border-purple-200' : 'bg-blue-50 text-blue-800 border-blue-200';
+
+            const badgesHtml = `
+                <span class="px-2.5 py-0.5 rounded text-xs font-semibold border ${stateColor}">${stateLabel}</span>
+                <span class="px-2.5 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">${item.category}</span>
+                ${item.severity === 'High' ? '<span class="px-2.5 py-0.5 rounded text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">🔴 High Alert</span>' : ''}
+            `;
+            document.getElementById('modalBadges').innerHTML = badgesHtml;
+
+            openModal('detailModal');
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeModalOnBackdrop(e, modalId) {
+            if (e.target.id === modalId) {
+                closeModal(modalId);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal('detailModal');
+                closeModal('leaderModal');
+                closeModal('issueBriefModal');
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchLiveIssues();
+            setInterval(fetchLiveIssues, 300000);
+        });
+    </script>
+</body>
+</html>
