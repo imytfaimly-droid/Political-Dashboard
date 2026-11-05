@@ -1,0 +1,81 @@
+name: Dashboard auto update
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"    # har 15 minute (GitHub kabhi-kabhi 5-10 min der kar deta hai)
+  workflow_dispatch:           # Actions tab se "Run workflow" dabakar turant chala sakte ho
+  push:
+    branches: [main]
+    paths:
+      - "Uttarakhand_Political_Monitor/**"   # HTML ya manual/ file badli to turant naya deploy
+
+permissions:
+  contents: write    # roz ka archive repo me save karne ke liye
+  pages: write       # dashboard GitHub Pages par publish karne ke liye
+  id-token: write
+
+concurrency:
+  group: dashboard-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}Uttarakhand_Political_Monitor/dashboard.html
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: Uttarakhand_Political_Monitor/scraper/requirements.txt
+
+      - name: Install
+        run: pip install -r Uttarakhand_Political_Monitor/scraper/requirements.txt
+
+      - name: Pichhla live data.json lao (taaki purani khabrein bani rahen)
+        run: |
+          OWNER="${{ github.repository_owner }}"
+          URL="https://${OWNER,,}.github.io/${{ github.event.repository.name }}/Uttarakhand_Political_Monitor/data.json?t=$(date +%s)"
+          if curl -fsSL "$URL" -o /tmp/prev.json && python -c "import json;json.load(open('/tmp/prev.json'))"; then
+            cp /tmp/prev.json Uttarakhand_Political_Monitor/data.json
+            echo "Live data mil gaya"
+          else
+            echo "Live data nahi mila (pehla run?) - initial_data.js se shuru"
+          fi
+
+      - name: Khabrein scrape karke data.json banao
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}         # optional
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }} # optional
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}     # optional
+        run: python Uttarakhand_Political_Monitor/scraper/update_data.py
+
+      - name: Roz ka archive repo me save karo (sirf jab kuch naya ho)
+        run: |
+          git config user.name  "dashboard-bot"
+          git config user.email "dashboard-bot@users.noreply.github.com"
+          cd Uttarakhand_Political_Monitor
+          git add -A archive initial_data.js manual
+          if git diff --cached --quiet; then
+            echo "Archive me kuch naya nahi"; exit 0
+          fi
+          git commit -m "Archive update: $(TZ=Asia/Kolkata date '+%d-%m-%Y %H:%M IST')"
+          for i in 1 2 3; do
+            git pull --rebase -X theirs origin "${GITHUB_REF_NAME}" && git push && exit 0
+            sleep 5
+          done
+          exit 1
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
