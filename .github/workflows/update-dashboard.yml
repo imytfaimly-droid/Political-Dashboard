@@ -2,7 +2,7 @@ name: Dashboard auto update
 
 on:
   schedule:
-    - cron: "*/15 * * * *"    # har 15 minute (GitHub kabhi-kabhi 5-10 min der kar deta hai)
+    - cron: "7,22,37,52 * * * *"   # har 15 min, bheed wale :00/:15 minute se hatkar (GitHub schedule der kar sakta hai)
   workflow_dispatch:           # Actions tab se "Run workflow" dabakar turant chala sakte ho
   push:
     branches: [main]
