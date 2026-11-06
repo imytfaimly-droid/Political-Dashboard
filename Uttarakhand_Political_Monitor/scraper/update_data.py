@@ -22,7 +22,7 @@ import time
 import hashlib
 import difflib
 from datetime import datetime, timedelta, timezone
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus, urlparse
 
 import feedparser
 import requests
@@ -265,8 +265,9 @@ def parse_etv_page(html, base="https://www.etvbharat.com/"):
     return out
 
 
-def parse_bhaskar_page(html, base="https://www.bhaskar.com"):
-    """Dainik Bhaskar: window.INITIAL_STATE me feed hota hai (headline = header.slug)."""
+def parse_bhaskar_page(html, base="https://www.bhaskar.com", only_path=""):
+    """Dainik Bhaskar: window.INITIAL_STATE me feed hota hai (headline = header.slug).
+    only_path: sirf usi state ke link rakho (page par dusre rajyon ke widget bhi hote hain)."""
     m = re.search(r"window\.INITIAL_STATE\s*=\s*(\{.*?\})\s*;?\s*</script>", html, re.S)
     if not m:
         return []
@@ -280,6 +281,8 @@ def parse_bhaskar_page(html, base="https://www.bhaskar.com"):
         title = header.get("slug") or header.get("title")
         short = d.get("shortUrl") or ""
         if not (title and when and short):
+            continue
+        if only_path and not short.startswith(only_path):
             continue
         seen.add(sid)
         link = base + short if short.endswith(".html") else f"{base}{short}-{sid}.html"
@@ -297,7 +300,14 @@ def collect_pages():
         try:
             r = requests.get(url, headers=BROWSER_HEADERS, timeout=30)
             r.raise_for_status()
-            rows = PAGE_PARSERS[kind](r.text)
+            if kind == "bhaskar":
+                rows = parse_bhaskar_page(r.text, only_path=urlparse(url).path)
+            else:
+                rows = PAGE_PARSERS[kind](r.text)
+            limit = datetime.now(timezone.utc) + timedelta(minutes=10)
+            for row in rows:
+                if row["dt"] > limit:  # site ne IST time ko UTC likh diya ho to theek karo
+                    row["dt"] -= timedelta(hours=5, minutes=30)
         except Exception as e:  # ek site fail ho to baaki chalte rahen
             print(f"  ! page fail: {portal} {state} -> {e}")
             continue
@@ -605,11 +615,31 @@ def send_telegram_alerts(high_items):
         print(f"  ! Telegram fail: {e}")
 
 
+def clean_existing(items):
+    """Purane data me galat aayi Bhaskar khabrein (dusre rajya / 5:30 aage time) hatao ya theek karo."""
+    bh_paths = [urlparse(u).path for _, _, u, k in getattr(C, "PAGE_SOURCES", []) if k == "bhaskar"]
+    limit = datetime.now(timezone.utc) + timedelta(minutes=10)
+    out = []
+    for it in items:
+        link = it.get("link", "")
+        if "bhaskar.com/local/" in link and bh_paths and not any(urlparse(link).path.startswith(p) for p in bh_paths):
+            continue
+        dt = datetime.fromisoformat(it["pub_ts"])
+        if dt > limit:
+            dt -= timedelta(hours=5, minutes=30)
+            it["pub_ts"] = dt.isoformat()
+            it["pub_date"] = dt.astimezone(IST).strftime("%d-%m-%Y %H:%M IST")
+            it["date_label"] = date_label_for(dt)
+        out.append(it)
+    return out
+
+
 # ------------------------------------------------------------------ main
 def main():
     started = now_ist()
     prev = load_json(DATA_JSON) or load_initial_js() or {}
     existing = [i for i in prev.get("issues", []) if i.get("pub_ts")]  # sirf auto-items aage le jao
+    existing = clean_existing(existing)
 
     raw = collect_raw()
     built = [b for b in (build_item(r) for r in raw) if b]
