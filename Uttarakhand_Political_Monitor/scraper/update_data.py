@@ -242,8 +242,13 @@ def walk_dicts(obj):
             stack.extend(o)
 
 
-def parse_etv_page(html, base="https://www.etvbharat.com/"):
-    """ETV Bharat (Next.js): __NEXT_DATA__ me khabron ki list hoti hai (kabhi base64 me)."""
+ETV_STATE_CODES = {"Uttarakhand": "ut", "Himachal Pradesh": "hp"}  # link ke ant me -uts.../-hps... code
+
+
+def parse_etv_page(html, base="https://www.etvbharat.com/", state=""):
+    """ETV Bharat (Next.js): __NEXT_DATA__ me khabron ki list hoti hai (kabhi base64 me).
+    Page par dusre rajyon / national (-hin...) ki khabrein bhi hoti hain, unhe code se hatao."""
+    code = ETV_STATE_CODES.get(state, "")
     m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', html, re.S)
     if not m:
         return []
@@ -255,9 +260,14 @@ def parse_etv_page(html, base="https://www.etvbharat.com/"):
     out, seen = [], set()
     for d in walk_dicts(data):
         title = d.get("display_title") or d.get("title")
-        url = d.get("web_url")
-        when = parse_iso(d.get("publish_date_string") or d.get("updated_at") or "")
+        url = d.get("web_url") or d.get("web_url_v2")
+        when = parse_iso(d.get("publish_date_string") or d.get("published_date") or d.get("updated_at") or "")
+        if not when and str(d.get("publish_date_uts", "")).isdigit():
+            when = datetime.fromtimestamp(int(d["publish_date_uts"]), timezone.utc)
         if not (isinstance(title, str) and isinstance(url, str) and when) or url in seen:
+            continue
+        m_code = re.search(r"-([a-z]+)\d{8,}/?$", url)
+        if code and m_code and not m_code.group(1).startswith(code):
             continue
         seen.add(url)
         link = url if url.startswith("http") else base + url.lstrip("/")
@@ -302,6 +312,8 @@ def collect_pages():
             r.raise_for_status()
             if kind == "bhaskar":
                 rows = parse_bhaskar_page(r.text, only_path=urlparse(url).path)
+            elif kind == "etv":
+                rows = parse_etv_page(r.text, state=state)
             else:
                 rows = PAGE_PARSERS[kind](r.text)
             limit = datetime.now(timezone.utc) + timedelta(minutes=10)
@@ -623,6 +635,10 @@ def clean_existing(items):
     for it in items:
         link = it.get("link", "")
         if "bhaskar.com/local/" in link and bh_paths and not any(urlparse(link).path.startswith(p) for p in bh_paths):
+            continue
+        m_code = re.search(r"-([a-z]+)\d{8,}/?$", link) if "etvbharat.com" in link else None
+        code = ETV_STATE_CODES.get(it.get("state"), "")
+        if m_code and it.get("source") == "ETV Bharat" and code and not m_code.group(1).startswith(code):
             continue
         dt = datetime.fromisoformat(it["pub_ts"])
         if dt > limit:
