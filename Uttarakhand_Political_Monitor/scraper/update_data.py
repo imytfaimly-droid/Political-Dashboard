@@ -215,6 +215,100 @@ def parse_entries(feed, state_hint, portal_hint=None):
     return out
 
 
+BROWSER_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/124.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml",
+    "Accept-Language": "hi-IN,hi;q=0.9,en;q=0.8",
+}
+
+
+def parse_iso(s):
+    try:
+        dt = datetime.fromisoformat(str(s).strip().replace("Z", "+00:00"))
+        return dt if dt.tzinfo else dt.replace(tzinfo=IST)
+    except Exception:
+        return None
+
+
+def walk_dicts(obj):
+    stack = [obj]
+    while stack:
+        o = stack.pop()
+        if isinstance(o, dict):
+            yield o
+            stack.extend(o.values())
+        elif isinstance(o, list):
+            stack.extend(o)
+
+
+def parse_etv_page(html, base="https://www.etvbharat.com/"):
+    """ETV Bharat (Next.js): __NEXT_DATA__ me khabron ki list hoti hai (kabhi base64 me)."""
+    m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', html, re.S)
+    if not m:
+        return []
+    raw = m.group(1).strip()
+    if not raw.startswith("{"):
+        import base64
+        raw = base64.b64decode(raw + "=" * (-len(raw) % 4)).decode("utf-8", "ignore")
+    data = json.loads(raw)
+    out, seen = [], set()
+    for d in walk_dicts(data):
+        title = d.get("display_title") or d.get("title")
+        url = d.get("web_url")
+        when = parse_iso(d.get("publish_date_string") or d.get("updated_at") or "")
+        if not (isinstance(title, str) and isinstance(url, str) and when) or url in seen:
+            continue
+        seen.add(url)
+        link = url if url.startswith("http") else base + url.lstrip("/")
+        out.append({"title": title, "summary": d.get("short_description") or "", "link": link, "dt": when})
+    return out
+
+
+def parse_bhaskar_page(html, base="https://www.bhaskar.com"):
+    """Dainik Bhaskar: window.INITIAL_STATE me feed hota hai (headline = header.slug)."""
+    m = re.search(r"window\.INITIAL_STATE\s*=\s*(\{.*?\})\s*;?\s*</script>", html, re.S)
+    if not m:
+        return []
+    data = json.loads(m.group(1))
+    out, seen = [], set()
+    for d in walk_dicts(data):
+        sid, header = d.get("storyId"), d.get("header")
+        if not sid or not isinstance(header, dict) or sid in seen:
+            continue
+        when = parse_iso(d.get("publishTime") or d.get("modifiedTime") or "")
+        title = header.get("slug") or header.get("title")
+        short = d.get("shortUrl") or ""
+        if not (title and when and short):
+            continue
+        seen.add(sid)
+        link = base + short if short.endswith(".html") else f"{base}{short}-{sid}.html"
+        out.append({"title": title, "summary": header.get("title") if header.get("slug") else "",
+                    "link": link, "dt": when})
+    return out
+
+
+PAGE_PARSERS = {"etv": parse_etv_page, "bhaskar": parse_bhaskar_page}
+
+
+def collect_pages():
+    raw = []
+    for portal, state, url, kind in getattr(C, "PAGE_SOURCES", []):
+        try:
+            r = requests.get(url, headers=BROWSER_HEADERS, timeout=30)
+            r.raise_for_status()
+            rows = PAGE_PARSERS[kind](r.text)
+        except Exception as e:  # ek site fail ho to baaki chalte rahen
+            print(f"  ! page fail: {portal} {state} -> {e}")
+            continue
+        for row in rows[: C.MAX_ITEMS_PER_QUERY * 2]:
+            row.update({"publisher": portal, "state_hint": state})
+            raw.append(row)
+        print(f"[page] {state:16s} {portal:16s} +{len(rows)}")
+        time.sleep(1)
+    return raw
+
+
 def collect_raw():
     jobs = []
     for state, queries in C.STATE_QUERIES.items():
@@ -233,6 +327,7 @@ def collect_raw():
         raw.extend(got)
         print(f"[{i}/{len(jobs)}] {state:16s} {portal or '':16s} +{len(got)}")
         time.sleep(0.6)  # Google ko spam na lage
+    raw.extend(collect_pages())
     return raw
 
 
