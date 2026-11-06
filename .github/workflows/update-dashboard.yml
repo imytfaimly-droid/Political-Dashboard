@@ -24,7 +24,6 @@ jobs:
     timeout-minutes: 15
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}Uttarakhand_Political_Monitor/dashboard.html
     steps:
       - uses: actions/checkout@v4
 
@@ -56,6 +55,7 @@ jobs:
         run: python Uttarakhand_Political_Monitor/scraper/update_data.py
 
       - name: Roz ka archive repo me save karo (sirf jab kuch naya ho)
+        continue-on-error: true   # archive save na ho tab bhi dashboard publish ho
         run: |
           git config user.name  "dashboard-bot"
           git config user.email "dashboard-bot@users.noreply.github.com"
@@ -66,7 +66,7 @@ jobs:
           fi
           git commit -m "Archive update: $(TZ=Asia/Kolkata date '+%d-%m-%Y %H:%M IST')"
           for i in 1 2 3; do
-            git pull --rebase -X theirs origin "${GITHUB_REF_NAME}" && git push && exit 0
+            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}" && git push && exit 0
             sleep 5
           done
           exit 1
