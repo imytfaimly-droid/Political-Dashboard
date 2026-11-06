@@ -7,8 +7,8 @@ Naya portal ya naya keyword jodna ho to sirf ye file edit karo.
 # ---------------- Data retention ----------------
 # data.json me kitne din ka data rahe (dashboard ka sabse bada filter 30 din ka hai)
 KEEP_DAYS_IN_DASHBOARD = 30
-# data.json me zyada se zyada kitni khabrein (page halka rahe)
-MAX_ITEMS_IN_DASHBOARD = 800
+# data.json me zyada se zyada kitni khabrein (30 din x ~200 roz; dashboard 60-60 karke dikhata hai)
+MAX_ITEMS_IN_DASHBOARD = 8000
 # har run me har query se kitni khabrein li jayen
 MAX_ITEMS_PER_QUERY = 25
 
