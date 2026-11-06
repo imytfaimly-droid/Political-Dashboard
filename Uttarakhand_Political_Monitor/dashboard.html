@@ -298,6 +298,9 @@
                 <button onclick="setPortalFilter('ETV Bharat')" class="portal-pill px-3 py-1 rounded-full border border-slate-200 text-slate-600 hover:border-slate-400 font-medium" data-portal="ETV Bharat">
                     📺 ETV Bharat (UK/HP)
                 </button>
+                <button onclick="setPortalFilter('Dainik Bhaskar')" class="portal-pill px-3 py-1 rounded-full border border-slate-200 text-slate-600 hover:border-slate-400 font-medium" data-portal="Dainik Bhaskar">
+                    📰 दैनिक भास्कर (UK/HP)
+                </button>
                 <button onclick="setPortalFilter('Samvad 365')" class="portal-pill px-3 py-1 rounded-full border border-slate-200 text-slate-600 hover:border-slate-400 font-medium" data-portal="Samvad 365">
                     📺 संवाद 365
                 </button>
@@ -1381,6 +1384,7 @@
                     if (currentPortalFilter === 'The Print' && !src.includes('print')) return false;
                     if (currentPortalFilter === 'ETV Bharat' && !src.includes('etv')) return false;
                     if (currentPortalFilter === 'Samvad 365' && !src.includes('samvad')) return false;
+                    if (currentPortalFilter === 'Dainik Bhaskar' && !src.includes('bhaskar')) return false;
                 }
 
                 if (query) {
