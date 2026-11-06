@@ -1406,6 +1406,9 @@
             }
 
             emptyState.classList.add('hidden');
+            const LIMIT = window.__feedLimit || 60;
+            const total = items.length;
+            items = items.slice(0, LIMIT);
             let html = '';
 
             items.forEach(item => {
@@ -1462,6 +1465,9 @@
             });
 
             container.innerHTML = html;
+            if (total > LIMIT) {
+                container.insertAdjacentHTML('beforeend', `<div class="col-span-full flex justify-center py-2"><button onclick="window.__feedLimit=(window.__feedLimit||60)+60;applyFilters()" class="px-5 py-2.5 rounded-lg bg-slate-900 text-white text-sm font-semibold hover:bg-blue-600">और खबरें देखें (${total - LIMIT} बाकी)</button></div>`);
+            }
         }
 
         function renderBattlegroundMatrix() {
