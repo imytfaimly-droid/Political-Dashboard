@@ -68,6 +68,16 @@ DIRECT_FEEDS = [
     # ("Samvad 365", "Uttarakhand", "https://example.com/feed"),
 ]
 
+# Portal ke state page seedhe padhe jaate hain (in sites ka RSS nahi hai).
+# Format: ("Portal ka naam", "State", "page link", "parser")
+# parser: "etv" = ETV Bharat jaisi Next.js site, "bhaskar" = Dainik Bhaskar
+PAGE_SOURCES = [
+    ("ETV Bharat", "Uttarakhand", "https://www.etvbharat.com/hi/uttarakhand/!state", "etv"),
+    ("ETV Bharat", "Himachal Pradesh", "https://www.etvbharat.com/hi/himachal-pradesh/!state", "etv"),
+    ("Dainik Bhaskar", "Uttarakhand", "https://www.bhaskar.com/local/uttarakhand/", "bhaskar"),
+    ("Dainik Bhaskar", "Himachal Pradesh", "https://www.bhaskar.com/local/himachal/", "bhaskar"),
+]
+
 # ---------------- Publisher naam ko dashboard ke naam se milana ----------------
 PUBLISHER_ALIASES = {
     "amar ujala": "Amar Ujala",
@@ -85,6 +95,9 @@ PUBLISHER_ALIASES = {
     "the print": "The Print",
     "etv bharat": "ETV Bharat",
     "\u0908\u091f\u0940\u0935\u0940 \u092d\u093e\u0930\u0924": "ETV Bharat",
+    "dainik bhaskar": "Dainik Bhaskar",
+    "\u0926\u0948\u0928\u093f\u0915 \u092d\u093e\u0938\u094d\u0915\u0930": "Dainik Bhaskar",
+    "bhaskar": "Dainik Bhaskar",
 }
 
 # ---------------- State pehchan (AUTO feeds + cross-check) ----------------
